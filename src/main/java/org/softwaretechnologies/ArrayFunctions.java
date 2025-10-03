@@ -11,6 +11,11 @@ public final class ArrayFunctions {
      */
     public static void reverse(int[] array) {
         // TODO: реализуйте вышеуказанную функцию
+        for(int x=0; x< array.length/2; x++){
+            int y=array[x];
+            array[x]=array[array.length-1-x];
+            array[array.length-1-x]=y;
+        }
     }
 
     /**
