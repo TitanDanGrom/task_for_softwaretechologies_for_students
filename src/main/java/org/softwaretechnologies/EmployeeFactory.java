@@ -16,8 +16,14 @@ public class EmployeeFactory {
 
 
     public static Employee createEmployee(String name, int baseSalary, EmployeeType type) {
-        // TODO: реализуйте вышеуказанную функцию
-
+        if (type == null) return null;
+        int current = type.ordinal();
+        switch (current) {
+            case 0 -> { return new Manager(name, baseSalary); }
+            case 1 -> { return new Programmer(name, baseSalary); }
+            case 2 -> { return new Tester(name, baseSalary); }
+        }
         return null;
+
     }
 }
