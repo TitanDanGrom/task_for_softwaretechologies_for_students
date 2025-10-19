@@ -16,7 +16,8 @@ public class EmployeeFactory {
 
 
     public static Employee createEmployee(String name, int baseSalary, EmployeeType type) {
-        if (type == null) return null;
+        if (type == null)
+            return null;
         int current = type.ordinal();
         switch (current) {
             case 0 -> { return new Manager(name, baseSalary); }
