@@ -2,6 +2,7 @@ package org.softwaretechnologies;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Objects;
 import java.util.Random;
 
 import static java.lang.Integer.MAX_VALUE;
@@ -27,8 +28,26 @@ public class Money {
     @Override
     public boolean equals(Object o) {
         // TODO: реализуйте вышеуказанную функцию
+        if (this == o) return true;
+        if (!(o instanceof Money other)) return false;
 
-        return false;
+        // Compare types (MoneyType — вероятно enum) — равны, если оба null или равные
+        if (this.type == null) {
+            if (other.type != null) return false;
+        } else {
+            if (other.type == null) return false;
+            if (this.type != other.type) return false;
+        }
+
+        // Compare amounts: оба null -> равны; иначе сравниваем округлённые до 4 знаков HALF_UP
+        if (this.amount == null) {
+            return other.amount == null;
+        } else {
+            if (other.amount == null) return false;
+            BigDecimal a1 = this.amount.setScale(4, RoundingMode.HALF_UP);
+            BigDecimal a2 = other.amount.setScale(4, RoundingMode.HALF_UP);
+            return a1.compareTo(a2) == 0;
+        }
     }
 
     /**
@@ -49,10 +68,17 @@ public class Money {
     @Override
     public int hashCode() {
         // TODO: реализуйте вышеуказанную функцию
+        if (amount == null) return 10000;
 
+        BigDecimal multiplied = amount.setScale(4, RoundingMode.HALF_UP).
+                multiply(BigDecimal.valueOf(10000));
 
-        Random random = new Random();
-        return random.nextInt();
+        if (multiplied.compareTo(BigDecimal.valueOf(MAX_VALUE - 5)) >= 0)
+            return MAX_VALUE;
+
+        return multiplied.intValueExact() +
+                (type == null ? 5 : type.ordinal() + 1);
+
     }
 
     /**
@@ -75,8 +101,17 @@ public class Money {
     @Override
     public String toString() {
         // TODO: реализуйте вышеуказанную функцию
-        String str = type.toString()+": "+amount.setScale(4, RoundingMode.HALF_UP).toString();
-        return str;
+        String typeString = (type == null) ? "null" : type.toString();
+        String amountString;
+
+        if (amount == null) amountString = "null";
+        else {
+            BigDecimal rounded = amount.setScale(4, RoundingMode.HALF_UP);
+            amountString = rounded.toString();
+        }
+
+        return typeString + ": " + amountString;
+
     }
 
     public BigDecimal getAmount() {
