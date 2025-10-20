@@ -31,7 +31,6 @@ public class Money {
         if (this == o) return true;
         if (!(o instanceof Money other)) return false;
 
-        // Compare types (MoneyType — вероятно enum) — равны, если оба null или равные
         if (this.type == null) {
             if (other.type != null) return false;
         } else {
@@ -39,7 +38,6 @@ public class Money {
             if (this.type != other.type) return false;
         }
 
-        // Compare amounts: оба null -> равны; иначе сравниваем округлённые до 4 знаков HALF_UP
         if (this.amount == null) {
             return other.amount == null;
         } else {
