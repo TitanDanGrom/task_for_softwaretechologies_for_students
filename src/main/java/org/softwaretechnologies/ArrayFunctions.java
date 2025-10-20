@@ -41,7 +41,6 @@ public final class ArrayFunctions {
             return;
         }
 
-        // Проверяем является ли матрица квадратной
         int n = matrix.length;
 
         if (n == 0 | matrix[0] == null | matrix[0].length != n) {
@@ -49,10 +48,8 @@ public final class ArrayFunctions {
             return;
         }
 
-        // Транспонируем матрицу
         for (int i = 0; i < n; i++) {
             for (int j = i; j < n; j++) {
-                // Меняем местами элементы
                 int temp = matrix[i][j];
                 matrix[i][j] = matrix[j][i];
                 matrix[j][i] = temp;
